@@ -55,12 +55,12 @@ namespace FormAfzarHandler.Services
 
                 public  async  Task<string> Create(string dealid ,string  contactid) {
 
-                    var client = new RestClient($"https://api.hubapi.com/crm/v4/objects/deals/{dealid}/associations/contact/{contactid}");
+                    var client = new RestClient($"https://api.hubapi.com/crm/v4/objects/contacts/{contactid}/associations/deals/{dealid}");
                     var request = new RestRequest();
                     request.AddHeader("accept", "application/json");
                     request.AddHeader("content-type", "application/json");
                     request.AddHeader("authorization", $"Bearer pat-na1-d31e1209-2f8d-4cde-af00-89113f888372 ");
-
+                    request.AddJsonBody("[{\"associationCategory\":\"HUBSPOT_DEFINED\",\"associationTypeId\":4}]", ContentType.Json);
                     var response = await client.ExecutePutAsync(request);
 
                     return response.Content;

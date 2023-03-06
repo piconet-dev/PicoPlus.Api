@@ -42,7 +42,7 @@ namespace PicoNet {
             app.UseAuthorization();
 
 
-            app.MapPost("/CRM", async  context => {
+            app.MapPost("/CRM", async context => {
                 try {
                     #region Details Registeration 
                     string FullName = string.Empty;
@@ -51,7 +51,6 @@ namespace PicoNet {
                     string DealAmount = string.Empty;
                     string Description = string.Empty;
                     string Discount = string.Empty;
-                    #endregion
 
                     TelegramBotClient bot = new TelegramBotClient("6086012221:AAELPYgt1pLJnEUJeTqQ3godA2eAWvC-DCg");
                     var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
@@ -60,6 +59,7 @@ namespace PicoNet {
                     FormAfzarHandler.Services.HubSpot.Objects.Deal Deal = new FormAfzarHandler.Services.HubSpot.Objects.Deal();
 
                     FormAfzarHandler.Services.HubSpot.Objects.Assoc Assoc = new FormAfzarHandler.Services.HubSpot.Objects.Assoc();
+                    #endregion
 
                     foreach (var items in webhookData.form._params) {
 
@@ -119,7 +119,8 @@ namespace PicoNet {
                                 }
                             });
                             await bot.SendTextMessageAsync(1057871814, "Deal Created  With: " + DealInfo.id);
-                            var Assocres = await Assoc.Create(DealInfo.id, match.Value);
+                         
+                            var Assocres = await Assoc.Create(match.Value, data.id);
 
                             await bot.SendTextMessageAsync(1057871814, "Assoc : " + Assocres);
 
@@ -141,7 +142,7 @@ namespace PicoNet {
                                 pipeline = "default"
                             }
                         });
-                        var Assocres = await Assoc.Create(DealInfo.id, data.id);
+                        var Assocres = await Assoc.Create(data.id, DealInfo.id);
 
                         await bot.SendTextMessageAsync(1057871814, "Assoc : " + Assocres);
 
@@ -152,14 +153,16 @@ namespace PicoNet {
 
                     TelegramBotClient bot = new TelegramBotClient("6086012221:AAELPYgt1pLJnEUJeTqQ3godA2eAWvC-DCg");
 
-                    await bot.SendTextMessageAsync(1057871814, "Error: " +ex.Message);
+                    await bot.SendTextMessageAsync(1057871814, "Error: " + ex.Message);
 
                 }
 
 
 
             })
-                .WithName("CRM");
+                .WithName("CRM")
+                .WithDisplayName("CRM");
+            
 
             
 
