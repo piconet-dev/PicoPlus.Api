@@ -1,4 +1,4 @@
-
+﻿
 using FormAfzarHandler.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.CodeAnalysis.Differencing;
@@ -142,7 +142,9 @@ namespace PicoNet {
                                 pipeline = "default"
                             }
                         });
-                        var Assocres = await Assoc.Create(data.id, DealInfo.id);
+                        var Assocres = await Assoc.Create(DealInfo.id, data.id);
+                      
+                        await bot.SendTextMessageAsync(1057871814, "ِDeal Created With: " + DealInfo.id);
 
                         await bot.SendTextMessageAsync(1057871814, "Assoc : " + Assocres);
 
